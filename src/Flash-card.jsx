@@ -9,81 +9,114 @@ import { useState } from 'react';
 export default function FlashCard(props){
     const {card, concluidas, setConcluidas} = props;
 
-    const [apertouPlay, setAperouPlay] = useState(false);
+    const [textoCard, setTextoCard] = useState(`Pergunta ${card.id}`);
 
-    const [apertouVirarCarta, setApertouVirarCarta] = useState(false);
+    const [textDecoration, setTextDecoration] = useState('none');
 
-    const [concluiu, setConcluiu] = useState(false);
+    const [textColor, setTextColor] = useState('#333333');
 
-    const [esqueceu, setEsqueceu] = useState(false);
+    const [corCard, setCorCard] = useState('#FFFFFF');
 
-    const [quaseEsqueceu, setQuaseEsqueceu] = useState(false);
+    const [heightCard, setHeightCard] = useState('65px');
 
-    const [lembrou, setLembrou] = useState(false);
+    const [displayBotoes, setDisplayBotoes] = useState('none');
+
+    const [displayImg, setDisplayImg] = useState('');
+
+    const [positionImg, setPositionImg] = useState('none');
+
+    const [imgEmDisplay, setimgEmDisplay] = useState('play');
 
 
     function darPlay(){
-        setAperouPlay(true);
+
+        setTextoCard(`${card.question}`);
+        setCorCard('#FFFFD4');
+        setHeightCard('131px');
+        setPositionImg('absolute');
+        setimgEmDisplay('setinha');
     }
 
     function virarCarta(){
-        setApertouVirarCarta(true);
+
+        setTextoCard(`${card.answer}`);
+        setDisplayBotoes('flex');
+        setDisplayImg('none');
+        setPositionImg('none');
     }
 
     function naoLembrou(id){
-        setConcluiu(true); 
-        setEsqueceu(true);
+
+        setTextoCard(`Pergunta ${card.id}`);
+        setTextDecoration('line-through');
+        setTextColor('red');
+        setCorCard('#FFFFFF');
+        setHeightCard('65px');
+        setDisplayBotoes('none');
+        setDisplayImg('');
+        setimgEmDisplay('icone-errado');
+
         const novaArray = [...concluidas];
         novaArray.push(id);
         setConcluidas(novaArray);
+        
     }
 
     function quaseEsqueceuu(id){
-        setConcluiu(true); 
-        setQuaseEsqueceu(true);
+
+        setTextoCard(`Pergunta ${card.id}`);
+        setTextDecoration('line-through');
+        setTextColor('#FF922E');
+        setCorCard('#FFFFFF');
+        setHeightCard('65px');
+        setDisplayBotoes('none');
+        setDisplayImg('');
+        setimgEmDisplay('icone-quase');
+
         const novaArray = [...concluidas];
         novaArray.push(id);
         setConcluidas(novaArray);
     }
 
     function lembrouu(id){
-        setConcluiu(true); 
-        setLembrou(true);
+
+        setTextoCard(`Pergunta ${card.id}`);
+        setTextDecoration('line-through');
+        setTextColor('#2FBE34');
+        setCorCard('#FFFFFF');
+        setHeightCard('65px');
+        setDisplayBotoes('none');
+        setDisplayImg('');
+        setimgEmDisplay('zap');
+
         const novaArray = [...concluidas];
         novaArray.push(id);
         setConcluidas(novaArray);
     }
 
     return(
-        <>
-        {concluiu ? 
-        <FlashCardFinalizado data-test="flashcard" esqueceu={esqueceu} quaseEsqueceu={quaseEsqueceu} lembrou={lembrou}>
-            <p data-test="flashcard-text">Pergunta {card.id}</p>
-            <ul>
-                <li data-test="flashcard-text">Pergunta {card.id}</li>
-            </ul>
-            {esqueceu ? <img data-test="no-icon" src={erro}/> : <img data-test={lembrou ? "zap-icon" : "partial-icon"} src={lembrou ? `${certo}` : `${quase}`} /> }
-        </FlashCardFinalizado> : 
-        <FlashCardd data-test="flashcard" apertouPlay = {apertouPlay} apertouVirarCarta={apertouVirarCarta}>
-            <p data-test="flashcard-text">{ apertouPlay ? `${card.question}` : `Pergunta ${card.id}`}</p>
-            <ul>
-                <li data-test="flashcard-text">{ apertouVirarCarta ? `${card.answer}` : ''}</li>
-            </ul>
-            {apertouPlay ? <img data-test="turn-btn" onClick={virarCarta} src={virar}/> : <img data-test="play-btn" onClick={darPlay} src={playimg} /> }
+        <> 
+        <FlashCardd data-test="flashcard" corCard={corCard} heightCard={heightCard} displayBotoes={displayBotoes} textDecoration={textDecoration} textColor={textColor} displayImg={displayImg} positionImg={positionImg}>
+            <p data-test="flashcard-text">{textoCard}</p>
+            {imgEmDisplay === 'play' ? <img data-test="play-btn" onClick={darPlay} src={playimg} /> : ''}
+            {imgEmDisplay === 'setinha' ? <img data-test="turn-btn" onClick={virarCarta} src={virar}/> : '' }
+            {imgEmDisplay === 'icone-errado' ? <img src={erro}/> : ''}
+            {imgEmDisplay === 'icone-quase' ? <img src={quase}/> : ''}
+            {imgEmDisplay === 'zap' ? <img src={certo}/> : ''}
             <div>
                 <BotaoNaoLembrei data-test="no-btn" onClick={() => naoLembrou(card.id)}>Não Lembrei</BotaoNaoLembrei>
                 <BotaoQuaseNaoLembrei data-test="partial-btn" onClick={() => quaseEsqueceuu(card.id)}>Quase não lembrei</BotaoQuaseNaoLembrei>
                 <Zap data-test="zap-btn" onClick={() => lembrouu(card.id)}>Zap!</Zap>
             </div>
-        </FlashCardd>}
+        </FlashCardd>
         </>
     );
 }
 
 const FlashCardd = styled.div`
     width: 100%;
-    height: ${props => props.apertouPlay ? '131px' : '65px'};
-    background: ${props => props.apertouPlay ? '#FFFFD4' : '#FFFFFF'};
+    height: ${props => props.heightCard};
+    background-color: ${props => props.corCard};
     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
     border-radius: 5px;
     padding: 22px 15px 15px 15px;
@@ -95,23 +128,23 @@ const FlashCardd = styled.div`
     position: relative;
     p{
         font-family: 'Recursive';
+        text-decoration: ${props => props.textDecoration};
         font-style: normal;
         font-weight: 700;
         font-size: 16px;
         line-height: 19px;
-        color: #333333;
-        display: ${props => props.apertouVirarCarta ? 'none' : ''}
+        color: ${props => props.textColor};
     }
     img{
         width: 20px;
-        height: 23px;
-        position: ${props => props.apertouPlay ? 'absolute' : 'none'};
+        height: 20px;
+        position: ${props => props.positionImg};
         bottom: 6px;
         right: 15px;
-        display: ${props => props.apertouVirarCarta ? 'none' : ''};
+        display: ${props => props.displayImg}
     }
     div{
-        display: ${props => props.apertouVirarCarta ? 'flex' : 'none'};
+        display: ${props => props.displayBotoes};
         justify-content: space-around;
         position: absolute;
         bottom: 10px;
@@ -119,51 +152,7 @@ const FlashCardd = styled.div`
         height: 37px;
         width: 100%;
     }
-    ul{
-        text-decoration: none;
-        font-family: 'Recursive';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 19px;
-        color: #333333;
-    }
 `;
-
-const FlashCardFinalizado = styled.div`
-    width: 100%;
-    height: 65px;
-    background: #FFFFFF;
-    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
-    border-radius: 5px;
-    padding: 22px 15px 15px 15px;
-    margin-bottom: 25px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    position: relative;
-    p{
-        color: ${props => props.lembrou ? '#2FBE34' : '#FF922E'};
-        text-decoration: line-through;
-        font-family: 'Recursive';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 16px;
-        display: ${props => props.esqueceu ? 'none' : ''};
-    }
-    ul{
-        text-decoration: line-through;
-        font-family: 'Recursive';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 19px;
-        color: red;
-        display: ${props => props.esqueceu ? '' : 'none'}
-    }
-`;
-
 
 const BotaoNaoLembrei = styled.button`
     width: 85px;
@@ -179,31 +168,9 @@ const BotaoNaoLembrei = styled.button`
     border:none;
     border-radius: 5px;
 `
-const BotaoQuaseNaoLembrei = styled.button`
-    width: 85px;
-    height: 37px;
+const BotaoQuaseNaoLembrei = styled(BotaoNaoLembrei)`
     background-color: #FF922E;
-    font-family: 'Recursive';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 14px;
-    text-align: center;
-    color: #FFFFFF;
-    border:none;
-    border-radius: 5px;
 `
-const Zap = styled.button`
-    width: 85px;
-    height: 37px;
+const Zap = styled(BotaoNaoLembrei)`
     background-color: #2FBE34;
-    font-family: 'Recursive';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 14px;
-    text-align: center;
-    color: #FFFFFF;
-    border:none;
-    border-radius: 5px;
 `
