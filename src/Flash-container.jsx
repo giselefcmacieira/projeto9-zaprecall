@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import FlashCard from './Flash-card';
 
-export default function FlashContainer(){
+export default function FlashContainer(props){
+    const {cards, play, setPlay} = props;
     return(
         <ContainerCards>
-            <FlashCard/>
+            {cards.map(card => <FlashCard key={card.id} card={card}/>)}
         </ContainerCards>
     );
 }
@@ -19,4 +20,5 @@ const ContainerCards = styled.div`
     align-items: center;
     box-sizing: border-box;
     padding: 0 37px 0 37px;
+    background-color: #FB6B6B;
 `;
