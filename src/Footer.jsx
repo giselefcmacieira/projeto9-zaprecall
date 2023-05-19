@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 
-export default function Footer(){
+export default function Footer(props){
+    const {cards, concluidas, setConcluidas} = props;
+    const totalDeCards = cards.length;
+    const totalDeConcluida = concluidas.length;
     return(
         <Rodape>
-            <p>numero/total concluídos</p>
+            <p>{totalDeConcluida}/{totalDeCards} CONCLUÍDOS</p>
         </Rodape>
     );
 }

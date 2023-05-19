@@ -7,7 +7,7 @@ import erro from './assets/icone_erro.png';
 import { useState } from 'react';
 
 export default function FlashCard(props){
-    const {card} = props;
+    const {card, concluidas, setConcluidas} = props;
 
     const [apertouPlay, setAperouPlay] = useState(false);
 
@@ -30,19 +30,28 @@ export default function FlashCard(props){
         setApertouVirarCarta(true);
     }
 
-    function naoLembrou(){
-        setConcluiu(true); //Obrigatório em todos os botões
+    function naoLembrou(id){
+        setConcluiu(true); 
         setEsqueceu(true);
+        const novaArray = [...concluidas];
+        novaArray.push(id);
+        setConcluidas(novaArray);
     }
 
-    function quaseEsqueceuu(){
-        setConcluiu(true); //Obrigatório em todos os botões
+    function quaseEsqueceuu(id){
+        setConcluiu(true); 
         setQuaseEsqueceu(true);
+        const novaArray = [...concluidas];
+        novaArray.push(id);
+        setConcluidas(novaArray);
     }
 
-    function lembrouu(){
-        setConcluiu(true); //Obrigatório em todos os botões
+    function lembrouu(id){
+        setConcluiu(true); 
         setLembrou(true);
+        const novaArray = [...concluidas];
+        novaArray.push(id);
+        setConcluidas(novaArray);
     }
 
     return(
@@ -62,9 +71,9 @@ export default function FlashCard(props){
             </ul>
             {apertouPlay ? <img onClick={virarCarta} src={virar}/> : <img onClick={darPlay} src={playimg} /> }
             <div>
-                <BotaoNaoLembrei onClick={naoLembrou}>Não Lembrei</BotaoNaoLembrei>
-                <BotaoQuaseNaoLembrei onClick={quaseEsqueceuu}>Quase não lembrei</BotaoQuaseNaoLembrei>
-                <Zap onClick={lembrouu}>Zap!</Zap>
+                <BotaoNaoLembrei onClick={() => naoLembrou(card.id)}>Não Lembrei</BotaoNaoLembrei>
+                <BotaoQuaseNaoLembrei onClick={() => quaseEsqueceuu(card.id)}>Quase não lembrei</BotaoQuaseNaoLembrei>
+                <Zap onClick={() => lembrouu(card.id)}>Zap!</Zap>
             </div>
         </FlashCardd>}
         </>

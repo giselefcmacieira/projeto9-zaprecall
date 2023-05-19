@@ -6,14 +6,12 @@ import cards from './infoDeck';
 import { useState } from 'react';
 
 export default function Deck(){
-    const [play, setPlay] = useState(false);
+    const [concluidas, setConcluidas] = useState([]);
     return(
         <Deckk>
             <Header/>
-            <FlashContainer cards={cards} 
-            play={play} setPlay={setPlay}
-            />
-            <Footer/>
+            <FlashContainer cards={cards} concluidas={concluidas} setConcluidas={setConcluidas}/>
+            <Footer cards={cards} concluidas={concluidas} setConcluidas={setConcluidas}/>
         </Deckk>
     );
 }
