@@ -57,23 +57,23 @@ export default function FlashCard(props){
     return(
         <>
         {concluiu ? 
-        <FlashCardFinalizado esqueceu={esqueceu} quaseEsqueceu={quaseEsqueceu} lembrou={lembrou}>
-            <p>Pergunta {card.id}</p>
+        <FlashCardFinalizado data-test="flashcard" esqueceu={esqueceu} quaseEsqueceu={quaseEsqueceu} lembrou={lembrou}>
+            <p data-test="flashcard-text">Pergunta {card.id}</p>
             <ul>
-                <li>Pergunta {card.id}</li>
+                <li data-test="flashcard-text">Pergunta {card.id}</li>
             </ul>
-            {esqueceu ? <img src={erro}/> : <img src={lembrou ? `${certo}` : `${quase}`} /> }
+            {esqueceu ? <img data-test="no-icon" src={erro}/> : <img data-test={lembrou ? "zap-icon" : "partial-icon"} src={lembrou ? `${certo}` : `${quase}`} /> }
         </FlashCardFinalizado> : 
-        <FlashCardd apertouPlay = {apertouPlay} apertouVirarCarta={apertouVirarCarta}>
-            <p>{ apertouPlay ? `${card.question}` : `Pergunta ${card.id}`}</p>
+        <FlashCardd data-test="flashcard" apertouPlay = {apertouPlay} apertouVirarCarta={apertouVirarCarta}>
+            <p data-test="flashcard-text">{ apertouPlay ? `${card.question}` : `Pergunta ${card.id}`}</p>
             <ul>
-                <li>{ apertouVirarCarta ? `${card.answer}` : ''}</li>
+                <li data-test="flashcard-text">{ apertouVirarCarta ? `${card.answer}` : ''}</li>
             </ul>
-            {apertouPlay ? <img onClick={virarCarta} src={virar}/> : <img onClick={darPlay} src={playimg} /> }
+            {apertouPlay ? <img data-test="turn-btn" onClick={virarCarta} src={virar}/> : <img data-test="play-btn" onClick={darPlay} src={playimg} /> }
             <div>
-                <BotaoNaoLembrei onClick={() => naoLembrou(card.id)}>Não Lembrei</BotaoNaoLembrei>
-                <BotaoQuaseNaoLembrei onClick={() => quaseEsqueceuu(card.id)}>Quase não lembrei</BotaoQuaseNaoLembrei>
-                <Zap onClick={() => lembrouu(card.id)}>Zap!</Zap>
+                <BotaoNaoLembrei data-test="no-btn" onClick={() => naoLembrou(card.id)}>Não Lembrei</BotaoNaoLembrei>
+                <BotaoQuaseNaoLembrei data-test="partial-btn" onClick={() => quaseEsqueceuu(card.id)}>Quase não lembrei</BotaoQuaseNaoLembrei>
+                <Zap data-test="zap-btn" onClick={() => lembrouu(card.id)}>Zap!</Zap>
             </div>
         </FlashCardd>}
         </>

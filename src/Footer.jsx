@@ -6,7 +6,7 @@ export default function Footer(props){
     const totalDeConcluida = concluidas.length;
     return(
         <Rodape>
-            <p>{totalDeConcluida}/{totalDeCards} CONCLUÍDOS</p>
+            <p data-test="footer">{totalDeConcluida}/{totalDeCards} CONCLUÍDOS</p>
         </Rodape>
     );
 }
