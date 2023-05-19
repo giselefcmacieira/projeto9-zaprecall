@@ -21,6 +21,7 @@ const Cabecalho = styled.div`
   position: fixed;
   top: 0px;
   left: 0px;
+  z-index: 4;
   img{
     width: 52px;
     height: 60px;
